@@ -8,6 +8,8 @@ import React, {
   useState,
   ReactNode,
   FC,
+  useRef,
+  useEffect,
 } from "react";
 
 // 1. Definição da interface do Contexto (como no seu exemplo)
@@ -36,18 +38,25 @@ export const QuoteProvider: FC<QuoteProviderProps> = ({ children }) => {
   const [tickerTapeItems, setTickerTapeItems] = useState<ITickerTapeItem[]>([]);
   const [loadingQuote, setLoadingQuote] = useState(false);
 
+  const loadingRef = useRef(loadingQuote);
+  
+  // 6. SINCRONIZAÇÃO DA REF: Mantém a Ref atualizada com o Estado real
+  useEffect(() => {
+    loadingRef.current = loadingQuote;
+  }, [loadingQuote]);
+
   // A função de busca, exatamente como no seu exemplo
   const fetchTickerTapeData = useCallback(async () => {
-    if (loadingQuote) return;
+    
+    // 7. VERIFICAÇÃO COM A REF: Acessa o valor mais recente sem ser dependência
+    if (loadingRef.current) return; 
 
     setLoadingQuote(true);
     console.log("[QuoteContext] Iniciando busca de dados do Ticker Tape...");
 
     try {
       const data = await getTickerTapeData();
-      // Duplica os dados para o loop infinito do carrossel
       setTickerTapeItems([...data, ...data]);
-      console.log("data: ", data);
       console.log("[QuoteContext] Dados recebidos.");
     } catch (error) {
       console.error("[QuoteContext] Falha ao buscar dados:", error);
@@ -56,7 +65,8 @@ export const QuoteProvider: FC<QuoteProviderProps> = ({ children }) => {
       setLoadingQuote(false);
       console.log("[QuoteContext] Busca de dados finalizada.");
     }
-  }, [loadingQuote]); // Dependência 'loading' como no seu exemplo
+    
+  }, []); // Dependência 'loading' como no seu exemplo
 
   return (
     <QuoteContext.Provider
