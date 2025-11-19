@@ -2,7 +2,7 @@
 
 import { searchTickers } from "@/services/tickers";
 import { ITicker } from "@/services/tickers/type";
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 interface TickerContextProps {
   tickers: ITicker[];
@@ -26,9 +26,15 @@ export const TickerProvider: React.FC<TickerProps> = ({ children }) => {
   const [tickers, setTickers] = useState<ITicker[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const loadingRef = useRef(loading);
+  
+  useEffect(() => {
+    loadingRef.current = loading;
+  }, [loading]);
+
   const handleSearchTickers = useCallback(
     async (query: string) => {
-      console.log("Query ", query);
+      if (loadingRef.current) return;
 
       if (!query) {
         setTickers([]);
@@ -53,7 +59,7 @@ export const TickerProvider: React.FC<TickerProps> = ({ children }) => {
         console.log("[TickerContext] Busca de dados finalizada.");
       }
     },
-    [loading]
+    []
   );
 
   return (
