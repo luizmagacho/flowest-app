@@ -26,6 +26,29 @@ import { QuoteContext } from "@/contexts/QuoteContext";
 import AssetAllocationChart from "@/components/AssetAllocationChart/AssetAllocationChart";
 import PatrimonialEvolutionChart from "@/components/PatrimonialEvolutionChart/PatrimonialEvolutionChart";
 
+import {
+  Chart as ChartJS,
+  CategoryScale, // Eixo X (Categorias)
+  LinearScale, // Eixo Y (Valores)
+  PointElement,
+  LineElement, // <-- ESSENCIAL PARA O GRÁFICO DE LINHA
+  Title,
+  Legend,
+  ArcElement, // Para Doughnut/Pie, se você estiver usando
+} from 'chart.js';
+
+// Registre todos os componentes usados na sua aplicação
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement, // <-- ADICIONE ESTE
+  Title,
+  Legend,
+  ArcElement // Mantenha se você usa o gráfico de rosca
+  // Adicione qualquer outro controlador necessário, como BarController, etc.
+);
+
 // Os tipos de abas estão corretos e correspondem ao JSON
 type TabType = IPortfolio["type"] | "Todos";
 const TABS: TabType[] = ["Todos", "Ação", "BDR", "Cripto", "ETF", "FII"];
