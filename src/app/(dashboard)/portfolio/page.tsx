@@ -270,7 +270,7 @@ export default function PortfolioPage() {
         </TableContainer>
         <PortfolioCharts portfolio={portfolio || []} />
         <AssetAllocationChart portfolio={portfolio || []} />
-        <PatrimonialEvolutionChart  />
+        {/* <PatrimonialEvolutionChart  /> */}
       </Paper>
     </Box>
   );
