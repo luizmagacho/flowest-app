@@ -7,21 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 
-// --- Tipos de Exemplo ---
-type PlanId = "leve" | "medio" | "pro";
-type BillingCycle = "monthly" | "annual";
-
-interface SubscriptionFlowProps {
-  planId: PlanId;
-  billingCycle: BillingCycle;
-}
 
 // --- Componente Simplificado ---
 
-export default function SubscriptionFlow({
-  planId,
-  billingCycle,
-}: SubscriptionFlowProps) {
+export default function SubscriptionFlow() {
   // A CHAVE PUBLICA REAL DO STRIPE SERIA CARREGADA AQUI
   // const stripePromise = loadStripe("pk_test_..."); 
   // const clientSecret = "SEGREDO_GERADO_PELO_BACKEND"; // Segredo de pagamento gerado após a conta
@@ -31,10 +20,6 @@ export default function SubscriptionFlow({
       
       <Typography variant="h5" fontWeight="bold" sx={{ mb: 4 }}>
         💳 Etapa 2: Pagamento da Assinatura
-      </Typography>
-
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-        Você está assinando o plano **{planId.toUpperCase()}** ({billingCycle === 'annual' ? 'Anual' : 'Mensal'}).
       </Typography>
 
       {/* =========================================================
